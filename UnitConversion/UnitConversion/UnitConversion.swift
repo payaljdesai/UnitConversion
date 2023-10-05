@@ -49,8 +49,5 @@ func kiloMeter(firstunit :Dimension , secoundunit2 : Dimension , value : Double)
 {
    let heightFeet = Measurement(value: value, unit: firstunit)
    let heightInches = heightFeet.converted(to: secoundunit2)
-    print(heightFeet.value)
-    print(heightInches.value)
-
     return heightInches.value
 }
