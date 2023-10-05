@@ -11,22 +11,23 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var fromValue = "0.0"
-    @State private var toValue = "0.0"
     
-    @State private var fromUnit = LenthUnits.Kilometer
-    @State private var toUnit = LenthUnits.Kilometer
+    @State private var fromUnit = UnitCalculation.LenthUnits.Kilometer
+    @State private var toUnit = UnitCalculation.LenthUnits.Kilometer
     
     @FocusState private var focusedField: Field?
     private enum Field: Int {
             case yourTextEdit
         }
+    var unitCalculation = UnitCalculation()
     
-    var ConvertedDistanceValue2: Double {
+    @State private var fromValue = "0.0"
+    var toValue: Double {
         
-        let result = kiloMeter(firstunit:  getUnittype(unitValue: fromUnit), secoundunit2:  getUnittype(unitValue: toUnit), value: Double(fromValue) ?? 0.0)
+        let result = unitCalculation.convertUnit(firstunit:  unitCalculation.getUnitType(unitValue: fromUnit), secoundunit2:  unitCalculation.getUnitType(unitValue: toUnit), value: Double(fromValue) ?? 0.0)
         return result
     }
+    
         
     var body: some View {
         NavigationView {
@@ -36,7 +37,7 @@ struct ContentView: View {
                 Section {
                     
                     Picker("From Unit", selection: $fromUnit) {
-                        ForEach(LenthUnits.allCases, id: \.self) { priority in
+                        ForEach(UnitCalculation.LenthUnits.allCases, id: \.self) { priority in
                             
                             Text(priority.localizedName)
                             
@@ -57,7 +58,7 @@ struct ContentView: View {
                 }
                 Section {
                     Picker("To Unit", selection: $toUnit) {
-                        ForEach(LenthUnits.allCases, id: \.self) { priority in
+                        ForEach(UnitCalculation.LenthUnits.allCases, id: \.self) { priority in
                             
                             Text(priority.localizedName)
                             
@@ -65,7 +66,7 @@ struct ContentView: View {
                         .pickerStyle(.wheel)
                     }
                     
-                    Text(String(format: "%.4f", ConvertedDistanceValue2))
+                    Text(String(format: "%.4f", toValue))
                     
                 }
 
